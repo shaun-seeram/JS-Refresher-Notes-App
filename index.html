@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Refresher - Notes App</title>
+    <link rel="stylesheet" href="/styles.css">
+    <!-- <script src="/functions.js" defer></script> -->
+    <script src="/scripts.js" defer></script>
+</head>
+<body>
+    <div class="backdrop" id="backdrop">
+        <div class="modal" id="modal">
+            <form id="noteForm">
+                <label for="title" class="sr-only">Title</label>
+                <input type="text" id="title" placeholder="Enter title">
+
+                <label for="text" class="sr-only">Note</label>
+                <textarea id="text" placeholder="Enter text"></textarea>
+
+                <input type="submit" value="Submit" id="formSubmit">
+                <input type="button" value="Cancel" class="close" id="formCancel">
+            </form>
+        </div>
+    </div>
+    <header>
+        <h1>Notes App</h1>
+        <button class="add" id="add">
+            <span aria-hidden="true">+</span>
+            <span class="sr-only">Add new item</span>
+        </button>
+    </header>
+    <main>
+        <section class="notesList">
+            <div class="notes">
+                <h2>Notes</h2>
+                <div class="notesContainer"></div>
+            </div>
+        </section>
+        <section class="notesViewer">
+            <h2></h2>
+            <div class="viewerContainer"></div>
+        </section>
+    </main>
+    <footer><p>Created by Shaun S</p></footer>
+</body>
+</html>
