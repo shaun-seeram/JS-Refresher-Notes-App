@@ -64,7 +64,7 @@ section {
     border-radius: 10px;
 }
 
-.notesList, .notesViewer {
+.notesContainer, .viewerContainer {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -78,7 +78,7 @@ section {
     overflow-y: scroll;
 }
 
-.notesContainer, .viewerContainer {
+.notesBody, .viewerBody {
     height: calc(100% - 40px);
     width: 100%;
 }

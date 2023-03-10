@@ -2,9 +2,11 @@ let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
 const addNoteButton = document.querySelector("#add");
 
-const notesContainer = document.querySelector(".notesContainer");
-const notesViewer = document.querySelector(".viewerContainer");
-const notesTitle = document.querySelector(".notesViewer h2")
+const notesContainer = document.querySelector(".notesBody");
+
+const viewerContainer = document.querySelector(".viewerContainer")
+const viewerTitle = document.querySelector(".viewerContainer h2")
+const viewerBody = document.querySelector(".viewerBody");
 
 const backdrop = document.querySelector("#backdrop");
 const form = document.querySelector("#noteForm");
@@ -16,6 +18,15 @@ const cancel = document.querySelector("#formCancel");
 const renderNotes = () => {
     notesContainer.innerHTML = "";
 
+    if (viewerContainer.attributes["data-id"]) {
+        const filtered = notes.filter((item) => {
+            return item.id === +viewerContainer.attributes["data-id"].value
+        })[0]
+
+        viewerTitle.textContent = filtered.title;
+        viewerBody.innerHTML = filtered.text;
+    }
+
     notes.forEach((note) => {
         const div = document.createElement("div");
 
@@ -23,8 +34,9 @@ const renderNotes = () => {
         button.textContent = note.title;
 
         button.addEventListener("click", () => {
-            notesTitle.textContent = note.title;
-            notesViewer.innerHTML = note.text;
+            viewerContainer.setAttribute("data-id", note.id)
+            viewerTitle.textContent = note.title;
+            viewerBody.innerHTML = note.text;
         })
 
         const editButton = document.createElement("button");
@@ -137,5 +149,3 @@ const editNote = (note) => {
 }
 
 renderNotes();
-
-// How to refresh viewer content when changes made
