@@ -6,7 +6,7 @@ const notesContainer = document.querySelector(".notesBody");
 
 const viewerContainer = document.querySelector(".viewerContainer")
 const viewerTitle = document.querySelector(".viewerContainer h2")
-const viewerBody = document.querySelector(".viewerBody");
+const viewerBody = document.querySelector(".viewerBody pre");
 
 const backdrop = document.querySelector("#backdrop");
 const form = document.querySelector("#noteForm");
@@ -24,7 +24,7 @@ const renderNotes = () => {
         })[0] || {title: "", text:""}
 
         viewerTitle.textContent = filtered.title;
-        viewerBody.innerHTML = filtered.text;
+        viewerBody.textContent = filtered.text;
     }
 
     notes.forEach((note) => {
@@ -36,7 +36,7 @@ const renderNotes = () => {
         button.addEventListener("click", () => {
             viewerContainer.setAttribute("data-id", note.id)
             viewerTitle.textContent = note.title;
-            viewerBody.innerHTML = note.text;
+            viewerBody.textContent = note.text;
         })
 
         const editButton = document.createElement("button");
@@ -76,7 +76,7 @@ const addNote = () => {
 
             notes.push({
                 title: titleInput.value.trim() || "Untitled Note",
-                text: `<pre>${textInput.value.trim()}</pre>` || "",
+                text: textInput.value.trim() || "",
                 id: date,
                 dateCreated: date,
                 dateEdited: date
@@ -129,7 +129,7 @@ const editNote = (note) => {
         }
 
         note.title = titleInput.value.trim() || "Untitled Note";
-        note.text = `<pre>${textInput.value.trim()}</pre>` || "";
+        note.text = textInput.value.trim() || "";
         note.dateEdited = new Date().getTime();
         saveNotes()
         form.reset();
