@@ -21,7 +21,7 @@ const renderNotes = () => {
     if (viewerContainer.attributes["data-id"]) {
         const filtered = notes.filter((item) => {
             return item.id === +viewerContainer.attributes["data-id"].value
-        })[0]
+        })[0] || {title: "", text:""}
 
         viewerTitle.textContent = filtered.title;
         viewerBody.innerHTML = filtered.text;
@@ -130,6 +130,7 @@ const editNote = (note) => {
 
         note.title = titleInput.value.trim() || "Untitled Note";
         note.text = `<pre>${textInput.value.trim()}</pre>` || "";
+        note.dateEdited = new Date().getTime();
         saveNotes()
         form.reset();
         backdrop.classList.toggle("open");
