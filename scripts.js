@@ -6,6 +6,7 @@ const notesContainer = document.querySelector(".notesBody");
 
 const viewerContainer = document.querySelector(".viewerContainer")
 const viewerTitle = document.querySelector(".viewerContainer h2")
+const viewerDate = document.querySelector(".viewerDate")
 const viewerBody = document.querySelector(".viewerBody pre");
 
 const backdrop = document.querySelector("#backdrop");
@@ -24,23 +25,37 @@ const renderNotes = () => {
         })[0] || {title: "", text:""}
 
         viewerTitle.textContent = filtered.title;
+        viewerDate.textContent = filtered.dateCreated;
         viewerBody.textContent = filtered.text;
     }
 
     notes.forEach((note) => {
         const div = document.createElement("div");
+        div.classList.add("buttonContainer");
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.classList.add("optionsContainer");
 
         const button = document.createElement("button");
         button.textContent = note.title;
+        button.classList.add("noteButton")
+
+        const dateSpan = document.createElement("span");
+        let date = new Date(note.dateCreated).toDateString().split(" ");
+        date.shift();
+
+        dateSpan.textContent = `${date[0]} ${date[1]}, ${date[2]}`;
+        button.appendChild(dateSpan)
 
         button.addEventListener("click", () => {
             viewerContainer.setAttribute("data-id", note.id)
             viewerTitle.textContent = note.title;
+            viewerDate.textContent = `${date[0]} ${date[1]}, ${date[2]}`;
             viewerBody.textContent = note.text;
         })
 
         const editButton = document.createElement("button");
-        editButton.textContent = "edit"
+        editButton.textContent = "..."
         editButton.addEventListener("click", () => {
             editNote(note)
         })
@@ -51,9 +66,10 @@ const renderNotes = () => {
             removeNote(note.id)
         })
 
-        div.appendChild(removeButton)
+        optionsDiv.appendChild(removeButton);
+        optionsDiv.appendChild(editButton)
         div.appendChild(button)
-        div.appendChild(editButton)
+        div.appendChild(optionsDiv)
         notesContainer.appendChild(div);
     })
 }
@@ -150,3 +166,10 @@ const editNote = (note) => {
 }
 
 renderNotes();
+
+// Reformat code into Variables, Functions, Scripts
+// Style page / clear all button
+// Sorting function
+// Add todo function?
+
+// -- Alternative version: Login/Firebase?

@@ -27,7 +27,6 @@ h1 {
 
 h2 {
     line-height: 30px;
-    margin-bottom: 10px;
 }
 
 pre {
@@ -78,6 +77,43 @@ section {
     overflow-y: scroll;
 }
 
+.buttonContainer {
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.optionsContainer {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid black;
+}
+
+.optionsContainer button {
+    border: none;
+    background: none;
+    width: 35px;
+    height: 35px;
+}
+
+.optionsContainer button:first-of-type {
+    border-bottom: 1px solid black;
+}
+
+.noteButton {
+    flex-grow: 1;
+    text-align: left;
+    position: relative;
+    border: none;
+    background: none;
+}
+
+.noteButton span {
+    font-size: 1.2rem;
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+}
+
 .notesBody, .viewerBody {
     height: calc(100% - 40px);
     width: 100%;
@@ -109,6 +145,7 @@ footer {
 
 .backdrop.open {
     display: block;
+    z-index: 1;
 }
 
 .modal {
