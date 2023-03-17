@@ -16,6 +16,30 @@ const textInput = document.querySelector("#text");
 const submit = document.querySelector("#formSubmit");
 const cancel = document.querySelector("#formCancel");
 
+const sortNotes = (sortType) => {
+    if (sortType === "Alpha") {
+        notes.sort((a, b) => {
+            if (a.title > b.title) {
+                return 1
+            } else if (b.title > a.title) {
+                return -1
+            } else {
+                return 0
+            }
+        })
+    } else if (sortType === "Edited") {
+        notes.sort((a, b) => {
+            return b.dateEdited - a.dateEdited
+        })
+    } else if (sortType === "Created") {
+        notes.sort((a, b) => {
+            return b.dateCreated - a.dateCreated
+        })
+    }
+
+    renderNotes();
+}
+
 const renderNotes = () => {
     notesContainer.innerHTML = "";
 
@@ -165,11 +189,13 @@ const editNote = (note) => {
     cancel.addEventListener("click", cancelClick);
 }
 
+sortNotes("Created");
 renderNotes();
 
 // Reformat code into Variables, Functions, Scripts
 // Style page / clear all button
 // Sorting function
+// Search filter
 // Add todo function?
 
 // -- Alternative version: Login/Firebase?
