@@ -33,7 +33,17 @@
     <main>
         <section class="notesContainer">
             <div class="notes">
-                <h2>Notes</h2>
+                <div class="notesContainer-header">
+                    <h2>Notes</h2>
+                    <form>
+                        <label for="sortBy" class="sr-only">Sort notes by:</label>
+                        <select id="sortBy">
+                            <option value="Alpha">Alphabetical</option>
+                            <option value="Created" selected="selected">Date Created</option>
+                            <option value="Edited">Date Edited</option>
+                        </select>
+                    </form>
+                </div>
                 <div class="notesBody"></div>
             </div>
         </section>

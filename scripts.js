@@ -3,6 +3,7 @@ let notes = JSON.parse(localStorage.getItem("notes")) || [];
 const addNoteButton = document.querySelector("#add");
 
 const notesContainer = document.querySelector(".notesBody");
+const sortBy = document.querySelector("#sortBy");
 
 const viewerContainer = document.querySelector(".viewerContainer")
 const viewerTitle = document.querySelector(".viewerContainer h2")
@@ -16,8 +17,18 @@ const textInput = document.querySelector("#text");
 const submit = document.querySelector("#formSubmit");
 const cancel = document.querySelector("#formCancel");
 
-const sortNotes = (sortType) => {
-    if (sortType === "Alpha") {
+const filters = {
+    query: "",
+    sort: "Created"
+}
+
+sortBy.addEventListener("change", (e) => {
+    filters.sort = e.target.value;
+    renderNotes();
+})
+
+const filterNotes = () => {
+    if (filters.sort === "Alpha") {
         notes.sort((a, b) => {
             if (a.title > b.title) {
                 return 1
@@ -27,20 +38,21 @@ const sortNotes = (sortType) => {
                 return 0
             }
         })
-    } else if (sortType === "Edited") {
+    } else if (filters.sort === "Edited") {
         notes.sort((a, b) => {
             return b.dateEdited - a.dateEdited
         })
-    } else if (sortType === "Created") {
+    } else if (filters.sort === "Created") {
         notes.sort((a, b) => {
             return b.dateCreated - a.dateCreated
         })
     }
-
-    renderNotes();
 }
 
 const renderNotes = () => {
+
+    filterNotes()
+
     notesContainer.innerHTML = "";
 
     if (viewerContainer.attributes["data-id"]) {
@@ -189,12 +201,10 @@ const editNote = (note) => {
     cancel.addEventListener("click", cancelClick);
 }
 
-sortNotes("Created");
 renderNotes();
 
 // Reformat code into Variables, Functions, Scripts
 // Style page / clear all button
-// Sorting function
 // Search filter
 // Add todo function?
 
