@@ -27,7 +27,8 @@ sortBy.addEventListener("change", (e) => {
     renderNotes();
 })
 
-const filterNotes = () => {
+// Sorting the notes
+const sortNotes = () => {
     if (filters.sort === "Alpha") {
         notes.sort((a, b) => {
             if (a.title > b.title) {
@@ -39,29 +40,26 @@ const filterNotes = () => {
             }
         })
     } else if (filters.sort === "Edited") {
-        notes.sort((a, b) => {
-            return b.dateEdited - a.dateEdited
-        })
+        notes.sort((a, b) => b.dateEdited - a.dateEdited)
     } else if (filters.sort === "Created") {
-        notes.sort((a, b) => {
-            return b.dateCreated - a.dateCreated
-        })
+        notes.sort((a, b) => b.dateCreated - a.dateCreated)
     }
 }
 
 const renderNotes = () => {
 
-    filterNotes()
-
+    // Set up: Sort notes and clear notes container
+    sortNotes()
     notesContainer.innerHTML = "";
 
+    // If viewer box currently has a note in view, reload that same data
     if (viewerContainer.attributes["data-id"]) {
         const filtered = notes.filter((item) => {
             return item.id === +viewerContainer.attributes["data-id"].value
-        })[0] || {title: "", text:""}
+        })[0] || {title: "", dateToString: "", text: ""}
 
         viewerTitle.textContent = filtered.title;
-        viewerDate.textContent = filtered.dateCreated;
+        viewerDate.textContent = filtered.dateToString;
         viewerBody.textContent = filtered.text;
     }
 
@@ -77,16 +75,14 @@ const renderNotes = () => {
         button.classList.add("noteButton")
 
         const dateSpan = document.createElement("span");
-        let date = new Date(note.dateCreated).toDateString().split(" ");
-        date.shift();
 
-        dateSpan.textContent = `${date[0]} ${date[1]}, ${date[2]}`;
+        dateSpan.textContent = note.dateToString;
         button.appendChild(dateSpan)
 
         button.addEventListener("click", () => {
             viewerContainer.setAttribute("data-id", note.id)
             viewerTitle.textContent = note.title;
-            viewerDate.textContent = `${date[0]} ${date[1]}, ${date[2]}`;
+            viewerDate.textContent = note.dateToString;
             viewerBody.textContent = note.text;
         })
 
@@ -125,13 +121,16 @@ const addNote = () => {
         if (titleInput.value.trim() !== "" || textInput.value.trim() !== "") {
 
             const date = new Date().getTime()
+            const dateConversion = new Date().toDateString().split(" ");
+            dateConversion.shift();
 
             notes.push({
                 title: titleInput.value.trim() || "Untitled Note",
                 text: textInput.value.trim() || "",
                 id: date,
                 dateCreated: date,
-                dateEdited: date
+                dateEdited: date,
+                dateToString: `${dateConversion[0]} ${dateConversion[1]}, ${dateConversion[2]}`
             })
 
             saveNotes();
@@ -205,7 +204,7 @@ renderNotes();
 
 // Reformat code into Variables, Functions, Scripts
 // Style page / clear all button
-// Search filter
+// Remove "notes" title and add Search bar / filter
 // Add todo function?
 
 // -- Alternative version: Login/Firebase?
