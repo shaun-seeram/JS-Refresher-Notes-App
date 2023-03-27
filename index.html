@@ -34,8 +34,9 @@
         <section class="notesContainer">
             <div class="notes">
                 <div class="notesContainer-header">
-                    <h2>Notes</h2>
-                    <form>
+                    <form id="filterForm">
+                        <label for="filterQuery" class="sr-only">Search query:</label>
+                        <input type="text" id="filterQuery" placeholder="Filter notes"/>
                         <label for="sortBy" class="sr-only">Sort notes by:</label>
                         <select id="sortBy">
                             <option value="Alpha">Alphabetical</option>

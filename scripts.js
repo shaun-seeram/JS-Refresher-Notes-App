@@ -1,15 +1,14 @@
-let notes = JSON.parse(localStorage.getItem("notes")) || [];
+// VARIABLES ----------
 
 const addNoteButton = document.querySelector("#add");
-
 const notesContainer = document.querySelector(".notesBody");
+const filterForm = document.querySelector("#filterForm");
+const filterBy = document.querySelector("#filterQuery");
 const sortBy = document.querySelector("#sortBy");
-
 const viewerContainer = document.querySelector(".viewerContainer")
 const viewerTitle = document.querySelector(".viewerContainer h2")
 const viewerDate = document.querySelector(".viewerDate")
 const viewerBody = document.querySelector(".viewerBody pre");
-
 const backdrop = document.querySelector("#backdrop");
 const form = document.querySelector("#noteForm");
 const titleInput = document.querySelector("#title");
@@ -22,10 +21,7 @@ const filters = {
     sort: "Created"
 }
 
-sortBy.addEventListener("change", (e) => {
-    filters.sort = e.target.value;
-    renderNotes();
-})
+// FUNCTIONS ----------
 
 // Sorting the notes
 const sortNotes = () => {
@@ -46,10 +42,19 @@ const sortNotes = () => {
     }
 }
 
+// Filter the notes
+const filterNotes = () => {
+    return notes.filter((note) => {
+        return note.title.toLowerCase().includes(filters.query.toLowerCase())
+    })
+}
+
+// Render the notes
 const renderNotes = () => {
 
     // Set up: Sort notes and clear notes container
     sortNotes()
+    const notes = filterNotes();
     notesContainer.innerHTML = "";
 
     // If viewer box currently has a note in view, reload that same data
@@ -63,6 +68,7 @@ const renderNotes = () => {
         viewerBody.textContent = filtered.text;
     }
 
+    // Render each note
     notes.forEach((note) => {
         const div = document.createElement("div");
         div.classList.add("buttonContainer");
@@ -73,18 +79,15 @@ const renderNotes = () => {
         const button = document.createElement("button");
         button.textContent = note.title;
         button.classList.add("noteButton")
-
-        const dateSpan = document.createElement("span");
-
-        dateSpan.textContent = note.dateToString;
-        button.appendChild(dateSpan)
-
         button.addEventListener("click", () => {
             viewerContainer.setAttribute("data-id", note.id)
             viewerTitle.textContent = note.title;
             viewerDate.textContent = note.dateToString;
             viewerBody.textContent = note.text;
         })
+
+        const dateSpan = document.createElement("span");
+        dateSpan.textContent = note.dateToString;
 
         const editButton = document.createElement("button");
         editButton.textContent = "..."
@@ -98,6 +101,7 @@ const renderNotes = () => {
             removeNote(note.id)
         })
 
+        button.appendChild(dateSpan)
         optionsDiv.appendChild(removeButton);
         optionsDiv.appendChild(editButton)
         div.appendChild(button)
@@ -105,13 +109,6 @@ const renderNotes = () => {
         notesContainer.appendChild(div);
     })
 }
-
-addNoteButton.addEventListener("click", () => {
-
-    backdrop.classList.toggle("open");
-    addNote();
-
-})
 
 const addNote = () => {
 
@@ -200,11 +197,38 @@ const editNote = (note) => {
     cancel.addEventListener("click", cancelClick);
 }
 
+// SCRIPTS ----------
+
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+filterForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+})
+
+filterBy.addEventListener("input", (e) => {
+    filters.query = e.target.value;
+    renderNotes();
+})
+
+sortBy.addEventListener("change", (e) => {
+    filters.sort = e.target.value;
+    renderNotes();
+})
+
+addNoteButton.addEventListener("click", () => {
+    backdrop.classList.toggle("open");
+    addNote();
+})
+
 renderNotes();
 
-// Reformat code into Variables, Functions, Scripts
+
+
+
+
+
+
 // Style page / clear all button
-// Remove "notes" title and add Search bar / filter
 // Add todo function?
 
 // -- Alternative version: Login/Firebase?

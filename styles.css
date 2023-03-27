@@ -70,8 +70,9 @@ section {
     padding: 10px;
 }
 
-.notesContainer-header {
+.notesContainer-header form {
     display: flex;
+    gap: 20px;
     justify-content: space-between;
     align-items: center;
 }
